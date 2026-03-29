@@ -1,0 +1,203 @@
+import type { BiomarkerKnowledge } from './types';
+
+export const thyroidBiomarkers: BiomarkerKnowledge[] = [
+  {
+    code: 'TSH',
+    name: 'Thyroid-Stimulating Hormone',
+    aliases: ['thyrotropin', 'thyroid stimulating hormone'],
+    category: 'thyroid',
+    specimenType: 'serum',
+    defaultUnit: 'mIU/L',
+    alternativeUnits: ['µIU/mL'],
+    referenceRanges: [
+      { sex: 'any', min: 0.4, max: 4.0, unit: 'mIU/L', source: 'ATA 2017', pregnancyCaveat: 'TSH is lower in the first trimester (0.1-2.5 mIU/L) due to hCG stimulation of the thyroid. Trimester-specific ranges should be used.' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 50, unit: 'mIU/L', severity: 'critical', message: 'Severely elevated TSH — indicates significant hypothyroidism. Risk of myxedema if untreated.', action: 'Seek medical evaluation promptly to start thyroid hormone replacement.' },
+      { direction: 'high', value: 10, unit: 'mIU/L', severity: 'warning', message: 'Elevated TSH indicates hypothyroidism that generally warrants treatment.', action: 'Discuss thyroid hormone replacement with your clinician.' },
+      { direction: 'low', value: 0.1, unit: 'mIU/L', severity: 'warning', message: 'Suppressed TSH may indicate hyperthyroidism or excessive thyroid medication.', action: 'See your clinician for free T4 and free T3 measurement.' },
+      { direction: 'low', value: 0.01, unit: 'mIU/L', severity: 'critical', message: 'Undetectable TSH — likely overt hyperthyroidism or thyroid medication overdose. Risk of atrial fibrillation and bone loss.', action: 'Seek urgent medical evaluation.' },
+    ],
+    whatItMeasures: 'A hormone produced by the pituitary gland that tells the thyroid how much thyroid hormone to make. TSH is the most sensitive single test for thyroid function — it rises when the thyroid is underactive and drops when the thyroid is overactive.',
+    whatResultMayMean: {
+      high: 'Elevated TSH indicates the thyroid is not producing enough hormone (hypothyroidism). The pituitary releases more TSH to try to stimulate the underperforming thyroid. Common causes include Hashimoto thyroiditis, iodine deficiency, and thyroid surgery.',
+      low: 'Low TSH indicates excess thyroid hormone (hyperthyroidism) or thyroid medication overdose. The pituitary reduces TSH because it detects too much thyroid hormone. Common causes include Graves disease, toxic nodular goiter, and thyroiditis.',
+    },
+    commonNonDangerousReasons: {
+      high: [
+        'Subclinical hypothyroidism (mild TSH elevation with normal free T4)',
+        'Recovery phase of non-thyroidal illness',
+        'Iodine deficiency (mild)',
+        'Time of day (TSH is highest in the early morning)',
+        'Biotin supplement interference with the assay',
+        'Older age (TSH distribution shifts higher)',
+      ],
+      low: [
+        'First trimester of pregnancy (physiologic suppression by hCG)',
+        'Subclinical hyperthyroidism',
+        'Recent corticosteroid use',
+        'Non-thyroidal illness ("sick euthyroid")',
+        'Biotin supplement interference',
+      ],
+    },
+    whenItMatters: 'TSH is the first-line screening test for thyroid disorders and is essential for monitoring thyroid hormone replacement therapy. It should be checked in fatigue, weight changes, temperature intolerance, hair loss, and mood changes.',
+    dailyLifeActions: {
+      high: [
+        'If prescribed levothyroxine, take it consistently on an empty stomach, 30-60 minutes before breakfast',
+        'Avoid taking calcium, iron, or antacids within 4 hours of levothyroxine',
+        'Ensure adequate iodine intake (iodized salt, seafood, dairy)',
+        'Selenium-rich foods (Brazil nuts, fish) may help support thyroid health in autoimmune thyroiditis',
+        'Exercise regularly to help manage weight and energy levels',
+      ],
+      low: [
+        'If on thyroid medication, do not adjust the dose without consulting your clinician',
+        'Avoid excess iodine supplementation',
+        'Limit caffeine if experiencing palpitations or anxiety',
+        'Practice stress management techniques',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if TSH is above 4.5 mIU/L for thyroid evaluation with free T4. See urgently if above 10 mIU/L or with symptoms such as severe fatigue, cold intolerance, weight gain, or depression.',
+      low: 'See a clinician if TSH is below 0.4 mIU/L for further evaluation with free T4 and free T3. See urgently if below 0.1 mIU/L, especially with palpitations, tremor, or weight loss.',
+    },
+    preAnalyticalConfounders: [
+      'Time of day (TSH peaks at 2-4 AM and is lowest in the afternoon — morning draw recommended for consistency)',
+      'Biotin supplements (can cause falsely low TSH on some immunoassays — stop biotin 2-3 days before test)',
+      'Severe non-thyroidal illness (TSH may be transiently low or high)',
+      'Fasting state (TSH may be slightly lower after eating)',
+      'Sleep deprivation (may increase TSH)',
+    ],
+    medicationsAffecting: [
+      'Levothyroxine (decreases TSH when dosed correctly)',
+      'Lithium (increases TSH — can cause hypothyroidism)',
+      'Amiodarone (can cause either hypo- or hyperthyroidism)',
+      'Corticosteroids (suppress TSH)',
+      'Dopamine and dobutamine (suppress TSH)',
+      'Metformin (may slightly lower TSH)',
+      'Phenytoin and carbamazepine (alter thyroid hormone metabolism)',
+      'Immune checkpoint inhibitors (can cause thyroiditis)',
+    ],
+    relatedBiomarkers: ['FT4', 'FT3'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+  {
+    code: 'FT4',
+    name: 'Free Thyroxine',
+    aliases: ['free T4', 'FT4', 'thyroxine free'],
+    category: 'thyroid',
+    specimenType: 'serum',
+    defaultUnit: 'ng/dL',
+    alternativeUnits: ['pmol/L'],
+    referenceRanges: [
+      { sex: 'any', min: 0.8, max: 1.8, unit: 'ng/dL', source: 'ATA 2017' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 3.0, unit: 'ng/dL', severity: 'critical', message: 'Markedly elevated free T4 — overt hyperthyroidism. Risk of thyroid storm if severe.', action: 'Seek urgent medical evaluation.' },
+      { direction: 'low', value: 0.5, unit: 'ng/dL', severity: 'critical', message: 'Significantly low free T4 — overt hypothyroidism.', action: 'See your clinician promptly for treatment.' },
+    ],
+    whatItMeasures: 'The unbound, biologically active form of thyroxine (T4) circulating in the blood. Only about 0.03% of T4 is free; the rest is bound to transport proteins. Free T4 is the preferred measure because it is not affected by changes in binding proteins.',
+    whatResultMayMean: {
+      high: 'Elevated free T4 with low TSH confirms hyperthyroidism (Graves disease, toxic nodular goiter, thyroiditis). Elevated free T4 with normal/high TSH may indicate a TSH-secreting pituitary adenoma or thyroid hormone resistance.',
+      low: 'Low free T4 with elevated TSH confirms hypothyroidism. Low free T4 with normal/low TSH may indicate central hypothyroidism (pituitary or hypothalamic dysfunction) or non-thyroidal illness.',
+    },
+    commonNonDangerousReasons: {
+      high: ['Excess levothyroxine dose', 'Biotin supplement interference', 'Acute thyroiditis (transient)'],
+      low: ['Subclinical hypothyroidism in early stages (free T4 may still be in the low-normal range)', 'Non-thyroidal illness (sick euthyroid syndrome)', 'Pregnancy (binding protein changes)'],
+    },
+    whenItMatters: 'Free T4 is measured alongside TSH to confirm and classify thyroid dysfunction — distinguishing primary from central causes and overt from subclinical disease.',
+    dailyLifeActions: {
+      high: [
+        'Avoid excess iodine (kelp supplements, contrast dyes) if not yet evaluated',
+        'Limit caffeine to reduce palpitations and anxiety',
+        'Ensure adequate calcium and vitamin D, as hyperthyroidism accelerates bone loss',
+      ],
+      low: [
+        'Take prescribed levothyroxine consistently and correctly',
+        'Ensure adequate iodine, selenium, and zinc intake',
+        'Exercise to help manage weight and energy levels',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician promptly if free T4 is elevated, especially with suppressed TSH and symptoms (weight loss, tremor, palpitations, heat intolerance).',
+      low: 'See a clinician if free T4 is below the reference range, particularly with elevated TSH, fatigue, weight gain, or cold intolerance.',
+    },
+    preAnalyticalConfounders: [
+      'Biotin supplements (may falsely elevate free T4 on some immunoassays)',
+      'Heparin (can increase free T4 in vitro)',
+      'Severe non-thyroidal illness',
+      'Pregnancy (altered binding proteins affect some assays)',
+      'Time of sample (relatively stable, but optimal in the morning for consistency)',
+    ],
+    medicationsAffecting: [
+      'Levothyroxine (increase)',
+      'Amiodarone (increase — inhibits T4 to T3 conversion)',
+      'Heparin (may falsely increase)',
+      'Furosemide at high doses (may displace T4 from binding proteins)',
+      'Phenytoin and carbamazepine (lower total T4 but free T4 may remain normal)',
+      'Propranolol (does not change T4 but treats symptoms of excess)',
+    ],
+    relatedBiomarkers: ['TSH', 'FT3'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+  {
+    code: 'FT3',
+    name: 'Free Triiodothyronine',
+    aliases: ['free T3', 'FT3', 'triiodothyronine free'],
+    category: 'thyroid',
+    specimenType: 'serum',
+    defaultUnit: 'pg/mL',
+    alternativeUnits: ['pmol/L'],
+    referenceRanges: [
+      { sex: 'any', min: 2.3, max: 4.2, unit: 'pg/mL', source: 'ATA 2017' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 7.0, unit: 'pg/mL', severity: 'critical', message: 'Markedly elevated free T3 — may indicate T3-predominant thyrotoxicosis.', action: 'Seek urgent medical evaluation.' },
+      { direction: 'low', value: 1.5, unit: 'pg/mL', severity: 'warning', message: 'Low free T3 may indicate hypothyroidism, non-thyroidal illness, or impaired T4-to-T3 conversion.', action: 'Discuss with your clinician in the context of TSH and free T4 levels.' },
+    ],
+    whatItMeasures: 'The unbound, active form of triiodothyronine (T3). T3 is the most metabolically active thyroid hormone — about 3-5 times more potent than T4. Most T3 is produced by conversion of T4 in peripheral tissues rather than directly by the thyroid.',
+    whatResultMayMean: {
+      high: 'Elevated free T3 with suppressed TSH confirms hyperthyroidism. T3 may be disproportionately elevated compared to T4 in Graves disease and toxic nodular goiter (T3 thyrotoxicosis). It is also seen with excess T3-containing thyroid supplements.',
+      low: 'Low free T3 occurs in hypothyroidism, non-thyroidal illness (T3 drops early as an adaptive response to conserve energy), and with medications or conditions that impair T4-to-T3 conversion.',
+    },
+    commonNonDangerousReasons: {
+      high: ['Excess thyroid medication containing T3 (liothyronine, desiccated thyroid)', 'Early Graves disease'],
+      low: ['Non-thyroidal illness (sick euthyroid syndrome — T3 drops during acute illness as an adaptive mechanism)', 'Caloric restriction or fasting', 'Selenium deficiency (impairs conversion)', 'Older age'],
+    },
+    whenItMatters: 'Free T3 is most useful when TSH is suppressed but free T4 is normal (possible T3 thyrotoxicosis), or to monitor patients on T3-containing thyroid preparations.',
+    dailyLifeActions: {
+      high: [
+        'If on desiccated thyroid or liothyronine, discuss dose adjustment with your clinician',
+        'Limit caffeine and stimulants if experiencing symptoms',
+        'Ensure adequate calcium and vitamin D for bone protection',
+      ],
+      low: [
+        'Ensure adequate selenium intake (Brazil nuts, seafood, eggs) — selenium is required for T4-to-T3 conversion',
+        'Avoid extreme caloric restriction',
+        'Manage stress, which can impair thyroid hormone conversion',
+        'Ensure adequate iron and zinc, which support thyroid function',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if free T3 is elevated with suppressed TSH, especially with hyperthyroid symptoms (tremor, weight loss, palpitations, heat intolerance).',
+      low: 'Low free T3 during acute illness is usually adaptive and resolves. See a clinician if persistently low with hypothyroid symptoms.',
+    },
+    preAnalyticalConfounders: [
+      'Non-thyroidal illness (T3 drops as an adaptive response)',
+      'Fasting or caloric restriction (decreases T3)',
+      'Biotin supplements (can interfere with some assays)',
+      'Time of day (slight diurnal variation)',
+    ],
+    medicationsAffecting: [
+      'Liothyronine/desiccated thyroid (increase)',
+      'Amiodarone (decrease — blocks T4-to-T3 conversion)',
+      'Beta-blockers, especially propranolol (decrease T3 conversion at high doses)',
+      'Corticosteroids (decrease T3 conversion)',
+      'Iodinated contrast agents (decrease T3 conversion)',
+    ],
+    relatedBiomarkers: ['TSH', 'FT4'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+];

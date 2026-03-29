@@ -1,0 +1,265 @@
+import type { BiomarkerKnowledge } from './types';
+
+export const kidneyBiomarkers: BiomarkerKnowledge[] = [
+  {
+    code: 'CREAT',
+    name: 'Creatinine',
+    aliases: ['serum creatinine', 'creat', 'sCr'],
+    category: 'kidney',
+    specimenType: 'serum',
+    defaultUnit: 'mg/dL',
+    alternativeUnits: ['µmol/L'],
+    referenceRanges: [
+      { sex: 'male', min: 0.7, max: 1.3, unit: 'mg/dL', source: 'KDIGO/CLSI' },
+      { sex: 'female', min: 0.6, max: 1.1, unit: 'mg/dL', source: 'KDIGO/CLSI', pregnancyCaveat: 'Creatinine normally decreases during pregnancy due to increased GFR and plasma volume expansion.' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 4.0, unit: 'mg/dL', severity: 'critical', message: 'Severely elevated creatinine indicates significant kidney dysfunction.', action: 'Seek urgent medical evaluation — possible acute kidney injury or advanced chronic kidney disease.' },
+      { direction: 'high', value: 1.5, unit: 'mg/dL', severity: 'warning', message: 'Elevated creatinine may indicate reduced kidney function.', action: 'Discuss with your clinician for eGFR calculation and further evaluation.' },
+    ],
+    whatItMeasures: 'A waste product from normal muscle metabolism (creatine phosphate breakdown). Your kidneys filter creatinine out of the blood. When kidney function declines, creatinine levels rise.',
+    whatResultMayMean: {
+      high: 'Elevated creatinine may indicate acute kidney injury, chronic kidney disease, dehydration, or high muscle mass. It is used to estimate glomerular filtration rate (eGFR), which is a more accurate measure of kidney function.',
+      low: 'Low creatinine may indicate low muscle mass, malnutrition, or advanced liver disease. It is generally not concerning on its own.',
+    },
+    commonNonDangerousReasons: {
+      high: [
+        'High muscle mass (bodybuilders, athletes)',
+        'High-protein diet or creatine supplementation',
+        'Dehydration',
+        'Recent intense exercise',
+        'Cooked meat consumed shortly before the test',
+      ],
+      low: [
+        'Low muscle mass (elderly, sedentary individuals)',
+        'Vegetarian or vegan diet',
+        'Pregnancy',
+      ],
+    },
+    whenItMatters: 'Creatinine is the cornerstone of kidney function assessment and is used to calculate eGFR. It is essential for monitoring kidney health in diabetes, hypertension, and medication dosing.',
+    dailyLifeActions: {
+      high: [
+        'Stay well-hydrated with water throughout the day',
+        'Discuss creatine supplements with your clinician — discontinue if kidney function is in question',
+        'Moderate protein intake if kidney disease is confirmed (discuss target with a dietitian)',
+        'Avoid NSAIDs (ibuprofen, naproxen) which can impair kidney function',
+      ],
+      low: [
+        'Ensure adequate protein intake to maintain muscle mass',
+        'Engage in resistance exercise to support healthy muscle mass',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if creatinine is above the reference range, especially if it represents a change from prior values. Seek urgent care if above 3.0 mg/dL or if urine output decreases.',
+      low: 'Low creatinine alone rarely needs follow-up unless it reflects concerning muscle wasting or liver disease.',
+    },
+    preAnalyticalConfounders: [
+      'High muscle mass (physiologically higher creatinine)',
+      'Creatine supplements (increase)',
+      'Cooked meat consumption before test',
+      'Dehydration',
+      'Exercise timing',
+      'Certain drugs interfere with the assay (e.g., cimetidine blocks tubular secretion)',
+    ],
+    medicationsAffecting: [
+      'Trimethoprim (increases creatinine by blocking tubular secretion — not true kidney damage)',
+      'Cimetidine (same mechanism as trimethoprim)',
+      'ACE inhibitors/ARBs (may increase slightly — expected and generally acceptable)',
+      'NSAIDs (can impair kidney function, raising creatinine)',
+      'Aminoglycosides (nephrotoxic — increase)',
+      'Contrast dye (can cause contrast nephropathy)',
+    ],
+    relatedBiomarkers: ['EGFR', 'BUN', 'URIC_ACID', 'K', 'NA'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+  {
+    code: 'EGFR',
+    name: 'Estimated Glomerular Filtration Rate',
+    aliases: ['eGFR', 'GFR', 'estimated GFR', 'glomerular filtration rate'],
+    category: 'kidney',
+    specimenType: 'calculated from serum creatinine',
+    defaultUnit: 'mL/min/1.73m²',
+    referenceRanges: [
+      { sex: 'any', min: 90, max: null, unit: 'mL/min/1.73m²', source: 'KDIGO 2024 (CKD-EPI 2021 equation without race coefficient)' },
+    ],
+    redFlagThresholds: [
+      { direction: 'low', value: 15, unit: 'mL/min/1.73m²', severity: 'critical', message: 'eGFR below 15 indicates kidney failure — dialysis or transplant may be needed.', action: 'See a nephrologist urgently.' },
+      { direction: 'low', value: 30, unit: 'mL/min/1.73m²', severity: 'critical', message: 'eGFR below 30 indicates severely reduced kidney function (CKD stage 4).', action: 'Referral to nephrology is recommended.' },
+      { direction: 'low', value: 60, unit: 'mL/min/1.73m²', severity: 'warning', message: 'eGFR below 60 indicates moderately reduced kidney function (CKD stage 3).', action: 'Discuss kidney health management with your clinician.' },
+    ],
+    whatItMeasures: 'An estimate of how well your kidneys filter waste from the blood each minute. It is calculated from creatinine (and sometimes cystatin C), adjusted for age and sex using the CKD-EPI equation.',
+    whatResultMayMean: {
+      high: 'An eGFR above 90 is generally normal. Very high values may occasionally be seen in early diabetes (hyperfiltration) or pregnancy.',
+      low: 'A low eGFR indicates reduced kidney function. CKD stages: Stage 1 (≥90 with kidney damage), Stage 2 (60-89), Stage 3a (45-59), Stage 3b (30-44), Stage 4 (15-29), Stage 5 (<15, kidney failure).',
+    },
+    commonNonDangerousReasons: {
+      high: [],
+      low: [
+        'Normal aging (eGFR decreases approximately 1 mL/min/year after age 40)',
+        'High muscle mass may lower eGFR (creatinine-based overestimate of impairment)',
+        'Dehydration (transient decrease)',
+        'Recent high-protein meal',
+      ],
+    },
+    whenItMatters: 'eGFR is the primary tool for staging chronic kidney disease, guiding medication dosing, and deciding when to refer to nephrology. It is essential for anyone with diabetes, hypertension, or risk factors for kidney disease.',
+    dailyLifeActions: {
+      high: [],
+      low: [
+        'Control blood pressure — target below 130/80 mmHg if CKD is present',
+        'Manage blood sugar if diabetic',
+        'Avoid nephrotoxic medications (NSAIDs, certain antibiotics) when possible',
+        'Stay hydrated but avoid excessive fluid intake',
+        'Limit sodium intake to help control blood pressure',
+        'Discuss protein intake targets with your clinician or dietitian',
+        'Avoid smoking, which accelerates kidney disease progression',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'Very high eGFR does not typically require follow-up unless hyperfiltration is suspected in the context of diabetes.',
+      low: 'See a clinician if eGFR is below 60, especially if it represents a decline from prior values. Referral to nephrology is appropriate below 30.',
+    },
+    preAnalyticalConfounders: [
+      'All confounders affecting creatinine also affect eGFR',
+      'Muscle mass (very muscular patients may have falsely low eGFR)',
+      'Extremely low muscle mass (may overestimate eGFR)',
+      'Acute changes (eGFR is meant for stable, chronic assessment)',
+    ],
+    medicationsAffecting: [
+      'All medications affecting creatinine also affect eGFR',
+      'SGLT2 inhibitors may cause an initial dip in eGFR that is expected and protective long-term',
+    ],
+    relatedBiomarkers: ['CREAT', 'BUN', 'URIC_ACID'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+  {
+    code: 'BUN',
+    name: 'Blood Urea Nitrogen',
+    aliases: ['urea', 'BUN', 'serum urea', 'urea nitrogen'],
+    category: 'kidney',
+    specimenType: 'serum',
+    defaultUnit: 'mg/dL',
+    alternativeUnits: ['mmol/L'],
+    referenceRanges: [
+      { sex: 'any', min: 7, max: 20, unit: 'mg/dL', source: 'CLSI' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 60, unit: 'mg/dL', severity: 'critical', message: 'Severely elevated BUN — may indicate kidney failure, severe dehydration, or GI bleeding.', action: 'Seek urgent medical evaluation.' },
+      { direction: 'high', value: 30, unit: 'mg/dL', severity: 'warning', message: 'Elevated BUN may indicate reduced kidney function or dehydration.', action: 'Discuss with your clinician.' },
+    ],
+    whatItMeasures: 'The amount of urea nitrogen in your blood. Urea is a waste product formed when the liver breaks down protein. The kidneys filter urea from the blood, so BUN rises when kidney function declines.',
+    whatResultMayMean: {
+      high: 'Elevated BUN may indicate kidney disease, dehydration, high-protein diet, GI bleeding (blood proteins are digested), heart failure, or shock. The BUN-to-creatinine ratio helps distinguish prerenal (dehydration) from intrinsic kidney causes.',
+      low: 'Low BUN may indicate liver disease (reduced urea production), malnutrition, overhydration, or low-protein diet.',
+    },
+    commonNonDangerousReasons: {
+      high: ['Dehydration', 'High-protein diet', 'Intense exercise', 'Older age'],
+      low: ['Low-protein or vegetarian diet', 'Overhydration', 'Pregnancy'],
+    },
+    whenItMatters: 'BUN is most useful when interpreted alongside creatinine (BUN/creatinine ratio) to help distinguish prerenal causes (dehydration, heart failure) from intrinsic kidney disease.',
+    dailyLifeActions: {
+      high: [
+        'Stay well-hydrated',
+        'If on a very high-protein diet, consider moderating intake',
+        'Discuss kidney function with your clinician if persistently elevated',
+      ],
+      low: [
+        'Ensure adequate protein intake',
+        'Discuss liver health with your clinician if BUN is persistently low',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if BUN is above 25 mg/dL with elevated creatinine. Seek urgent evaluation if above 50 mg/dL.',
+      low: 'See a clinician if BUN is persistently below 6 mg/dL, particularly with other signs of liver disease or malnutrition.',
+    },
+    preAnalyticalConfounders: [
+      'High-protein diet (increases BUN independently of kidney function)',
+      'GI bleeding (digested blood protein increases BUN)',
+      'Dehydration (concentrates BUN)',
+      'Catabolic states (fever, burns, trauma)',
+    ],
+    medicationsAffecting: [
+      'Corticosteroids (increase protein catabolism — increase BUN)',
+      'Tetracyclines (antianabolic effect — increase BUN)',
+      'Aminoglycosides (nephrotoxic — increase)',
+      'ACE inhibitors/ARBs (may increase by reducing GFR)',
+    ],
+    relatedBiomarkers: ['CREAT', 'EGFR', 'URIC_ACID'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+  {
+    code: 'URIC_ACID',
+    name: 'Uric Acid',
+    aliases: ['urate', 'serum uric acid'],
+    category: 'kidney',
+    specimenType: 'serum',
+    defaultUnit: 'mg/dL',
+    alternativeUnits: ['µmol/L'],
+    referenceRanges: [
+      { sex: 'male', min: 3.5, max: 7.2, unit: 'mg/dL', source: 'ACR/EULAR' },
+      { sex: 'female', min: 2.6, max: 6.0, unit: 'mg/dL', source: 'ACR/EULAR' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 10.0, unit: 'mg/dL', severity: 'warning', message: 'Significantly elevated uric acid — increased risk of gout flares and kidney stones.', action: 'Discuss urate-lowering therapy with your clinician.' },
+      { direction: 'high', value: 13.0, unit: 'mg/dL', severity: 'critical', message: 'Very high uric acid — risk of acute urate nephropathy, especially in the context of tumor lysis.', action: 'Seek urgent medical evaluation.' },
+    ],
+    whatItMeasures: 'The level of uric acid in the blood. Uric acid is the end product of purine metabolism. Purines come from the breakdown of your own cells and from dietary sources like red meat, organ meats, and alcohol.',
+    whatResultMayMean: {
+      high: 'Elevated uric acid (hyperuricemia) increases the risk of gout (urate crystal deposition in joints) and kidney stones. It is associated with metabolic syndrome, kidney disease, and cardiovascular risk.',
+      low: 'Low uric acid is uncommon and generally not concerning. It may be seen with certain genetic conditions, severe liver disease, or medications like allopurinol.',
+    },
+    commonNonDangerousReasons: {
+      high: [
+        'Diet high in purine-rich foods (red meat, shellfish, organ meats)',
+        'Alcohol consumption, especially beer',
+        'Dehydration',
+        'Metabolic syndrome and obesity',
+        'Fasting or rapid weight loss',
+      ],
+      low: [
+        'Low-purine diet',
+        'High fluid intake',
+      ],
+    },
+    whenItMatters: 'Uric acid testing is important for diagnosing and monitoring gout, evaluating kidney stone risk, and as part of metabolic syndrome assessment.',
+    dailyLifeActions: {
+      high: [
+        'Stay well-hydrated — aim for at least 2 liters of water daily',
+        'Limit purine-rich foods such as organ meats, shellfish, and red meat',
+        'Reduce or eliminate alcohol, especially beer and spirits',
+        'Limit fructose-sweetened beverages',
+        'Maintain a healthy weight, but avoid crash diets (rapid weight loss can trigger gout)',
+        'Include low-fat dairy products, which may help lower uric acid',
+        'Cherries and vitamin C may help support lower uric acid levels',
+      ],
+      low: [
+        'No specific lifestyle actions are typically needed for low uric acid',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if uric acid is above 7 mg/dL in men or 6 mg/dL in women, especially with joint pain, kidney stones, or metabolic syndrome.',
+      low: 'See a clinician only if uric acid is very low (below 2 mg/dL) or if you have symptoms of a renal tubular disorder.',
+    },
+    preAnalyticalConfounders: [
+      'Purine-rich meal before the test',
+      'Alcohol consumption',
+      'Dehydration',
+      'Fasting state (may paradoxically increase uric acid)',
+      'Exercise (transient increase)',
+    ],
+    medicationsAffecting: [
+      'Thiazide and loop diuretics (increase)',
+      'Low-dose aspirin (increase — impairs renal excretion)',
+      'Allopurinol and febuxostat (decrease — xanthine oxidase inhibitors)',
+      'Losartan (uniquely among ARBs, lowers uric acid)',
+      'Probenecid (decrease — uricosuric)',
+      'Cyclosporine (increase)',
+      'Levodopa (may decrease)',
+    ],
+    relatedBiomarkers: ['CREAT', 'EGFR', 'BUN', 'GLU', 'TRIG'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+];

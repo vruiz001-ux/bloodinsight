@@ -1,0 +1,143 @@
+import type { BiomarkerKnowledge } from './types';
+
+export const inflammationBiomarkers: BiomarkerKnowledge[] = [
+  {
+    code: 'CRP',
+    name: 'C-Reactive Protein',
+    aliases: ['CRP', 'hs-CRP', 'high-sensitivity CRP', 'c-reactive protein'],
+    category: 'inflammation',
+    specimenType: 'serum',
+    defaultUnit: 'mg/L',
+    alternativeUnits: ['mg/dL'],
+    referenceRanges: [
+      { sex: 'any', min: null, max: 3.0, unit: 'mg/L', source: 'AHA/CDC (hs-CRP for cardiovascular risk)' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 100, unit: 'mg/L', severity: 'critical', message: 'Severely elevated CRP — likely indicates serious infection, major tissue injury, or systemic inflammation.', action: 'Seek urgent medical evaluation to identify the source.' },
+      { direction: 'high', value: 10, unit: 'mg/L', severity: 'warning', message: 'Elevated CRP indicates active inflammation or infection.', action: 'Discuss with your clinician to determine the cause.' },
+    ],
+    whatItMeasures: 'A protein produced by the liver in response to inflammation. CRP rises rapidly (within 6-8 hours) during infection, injury, or inflammatory conditions and falls quickly when the stimulus resolves. High-sensitivity CRP (hs-CRP) detects lower levels for cardiovascular risk assessment.',
+    whatResultMayMean: {
+      high: 'Elevated CRP indicates systemic inflammation. Mild elevation (3-10 mg/L) may indicate low-grade chronic inflammation, metabolic syndrome, or moderate cardiovascular risk. Moderate elevation (10-100 mg/L) may indicate active infection or autoimmune disease. Very high (>100 mg/L) usually indicates severe bacterial infection or major tissue injury.',
+      low: 'Low CRP (below 1 mg/L) is favorable and indicates low systemic inflammation and lower cardiovascular risk.',
+    },
+    commonNonDangerousReasons: {
+      high: [
+        'Common cold or minor infection',
+        'Obesity (adipose tissue produces low-grade inflammation)',
+        'Smoking',
+        'Poor sleep or chronic stress',
+        'Recent vigorous exercise (transient)',
+        'Oral contraceptive or hormone replacement therapy use',
+        'Minor injury',
+      ],
+      low: [],
+    },
+    whenItMatters: 'CRP is important for detecting and monitoring infections, autoimmune diseases, and surgical complications. hs-CRP is used for cardiovascular risk stratification: <1 mg/L (low risk), 1-3 mg/L (moderate risk), >3 mg/L (higher risk).',
+    dailyLifeActions: {
+      high: [
+        'If mild chronic elevation: focus on anti-inflammatory lifestyle measures',
+        'Maintain a healthy weight — obesity is a major driver of chronic low-grade CRP elevation',
+        'Eat an anti-inflammatory diet rich in fruits, vegetables, omega-3 fatty acids, and whole grains',
+        'Exercise regularly — moderate exercise reduces CRP over time',
+        'Stop smoking — smoking raises CRP',
+        'Manage stress and prioritize sleep',
+        'Limit alcohol consumption',
+      ],
+      low: [],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if CRP is above 10 mg/L to identify the cause. Seek urgent evaluation if above 50 mg/L, especially with fever, pain, or other symptoms.',
+      low: 'Low CRP is favorable and does not require follow-up.',
+    },
+    preAnalyticalConfounders: [
+      'Any acute illness or infection (major confounder for cardiovascular risk interpretation)',
+      'Recent injury or surgery',
+      'Vigorous exercise within 24 hours',
+      'Smoking status',
+      'Obesity (baseline elevation)',
+      'Oral contraceptives and HRT (may double hs-CRP)',
+    ],
+    medicationsAffecting: [
+      'Statins (decrease hs-CRP 15-30%)',
+      'NSAIDs (may decrease)',
+      'Oral contraceptives (increase)',
+      'Hormone replacement therapy (increase)',
+      'Corticosteroids (decrease — suppress inflammation)',
+      'IL-6 inhibitors such as tocilizumab (markedly decrease)',
+    ],
+    relatedBiomarkers: ['ESR', 'WBC', 'NEUT', 'FERRITIN'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+  {
+    code: 'ESR',
+    name: 'Erythrocyte Sedimentation Rate',
+    aliases: ['sed rate', 'ESR', 'sedimentation rate'],
+    category: 'inflammation',
+    specimenType: 'whole blood (EDTA or citrate)',
+    defaultUnit: 'mm/hr',
+    referenceRanges: [
+      { sex: 'male', min: 0, max: 15, unit: 'mm/hr', ageMax: 50, source: 'CLSI' },
+      { sex: 'male', min: 0, max: 20, unit: 'mm/hr', ageMin: 50, source: 'CLSI' },
+      { sex: 'female', min: 0, max: 20, unit: 'mm/hr', ageMax: 50, source: 'CLSI' },
+      { sex: 'female', min: 0, max: 30, unit: 'mm/hr', ageMin: 50, source: 'CLSI' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 100, unit: 'mm/hr', severity: 'critical', message: 'Very high ESR — strongly suggests a serious underlying condition such as giant cell arteritis, multiple myeloma, severe infection, or malignancy.', action: 'Seek prompt medical evaluation.' },
+      { direction: 'high', value: 50, unit: 'mm/hr', severity: 'warning', message: 'Significantly elevated ESR warrants investigation for chronic infection, autoimmune disease, or malignancy.', action: 'Discuss with your clinician for further workup.' },
+    ],
+    whatItMeasures: 'How quickly red blood cells settle to the bottom of a test tube over one hour. Inflammation causes red cells to clump together (rouleaux formation), making them heavier and faster to settle. ESR is a non-specific marker of inflammation.',
+    whatResultMayMean: {
+      high: 'Elevated ESR indicates inflammation but does not point to a specific cause. It may reflect infection, autoimmune disease (rheumatoid arthritis, lupus), polymyalgia rheumatica, giant cell arteritis, malignancy, or chronic kidney disease. Very high ESR (>100 mm/hr) narrows the differential to serious conditions.',
+      low: 'Low ESR is generally normal. Very low values may occur with polycythemia, sickle cell disease, or extreme leukocytosis.',
+    },
+    commonNonDangerousReasons: {
+      high: [
+        'Pregnancy (physiologic increase)',
+        'Anemia (fewer red cells settle faster)',
+        'Obesity',
+        'Older age',
+        'Female sex (slightly higher baseline)',
+        'Mild infection or inflammation',
+      ],
+      low: [
+        'Polycythemia (many red cells slow sedimentation)',
+        'Sickle cell trait (altered red cell shape)',
+        'Very high white cell count',
+      ],
+    },
+    whenItMatters: 'ESR is important for diagnosing and monitoring giant cell arteritis, polymyalgia rheumatica, and other inflammatory conditions. It is often used alongside CRP, which responds more quickly to changes.',
+    dailyLifeActions: {
+      high: [
+        'Focus on identifying and addressing the underlying cause with your clinician',
+        'An anti-inflammatory diet and regular exercise may help support lower inflammation levels',
+        'Ensure adequate hydration',
+      ],
+      low: [],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if ESR is above 40 mm/hr without clear explanation. See urgently if above 100 mm/hr, especially with headache, scalp tenderness, visual changes, or new proximal muscle pain.',
+      low: 'Low ESR alone does not require follow-up.',
+    },
+    preAnalyticalConfounders: [
+      'Anemia (falsely elevates ESR)',
+      'Polycythemia (falsely lowers ESR)',
+      'Pregnancy (physiologic elevation)',
+      'Age (increases with age)',
+      'Tilted or vibrated tube during testing',
+      'Temperature of the lab (heat accelerates sedimentation)',
+      'Delayed testing after blood draw',
+    ],
+    medicationsAffecting: [
+      'Corticosteroids (decrease — suppress inflammation)',
+      'NSAIDs (may slightly decrease)',
+      'Oral contraceptives (may increase)',
+      'Heparin (may increase)',
+      'Dextran (increase)',
+    ],
+    relatedBiomarkers: ['CRP', 'WBC', 'FERRITIN', 'HGB', 'ALB'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+];

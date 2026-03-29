@@ -1,0 +1,222 @@
+import type { BiomarkerKnowledge } from './types';
+
+export const metabolicBiomarkers: BiomarkerKnowledge[] = [
+  {
+    code: 'GLU',
+    name: 'Fasting Glucose',
+    aliases: ['fasting blood sugar', 'FBS', 'fasting plasma glucose', 'FPG', 'blood sugar', 'glucose'],
+    category: 'metabolic',
+    specimenType: 'serum/plasma (fluoride tube preferred)',
+    defaultUnit: 'mg/dL',
+    alternativeUnits: ['mmol/L'],
+    referenceRanges: [
+      { sex: 'any', min: 70, max: 99, unit: 'mg/dL', source: 'ADA 2024' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 400, unit: 'mg/dL', severity: 'critical', message: 'Dangerously high blood glucose — risk of diabetic ketoacidosis or hyperosmolar syndrome.', action: 'Seek emergency medical care immediately.' },
+      { direction: 'high', value: 126, unit: 'mg/dL', severity: 'warning', message: 'Fasting glucose at or above 126 mg/dL meets the diagnostic threshold for diabetes if confirmed on a second test.', action: 'See your clinician to confirm diagnosis and begin management.' },
+      { direction: 'low', value: 54, unit: 'mg/dL', severity: 'critical', message: 'Severely low blood sugar — risk of confusion, seizure, or loss of consciousness.', action: 'Consume fast-acting glucose immediately and seek medical help if symptoms are severe.' },
+      { direction: 'low', value: 70, unit: 'mg/dL', severity: 'warning', message: 'Low blood sugar may cause shakiness, sweating, and dizziness.', action: 'Eat or drink something containing sugar and discuss with your clinician.' },
+    ],
+    whatItMeasures: 'The concentration of glucose (sugar) in your blood after at least 8 hours of fasting. Glucose is the primary energy source for your cells, and its regulation depends on insulin and other hormones.',
+    whatResultMayMean: {
+      high: 'Elevated fasting glucose may indicate prediabetes (100-125 mg/dL) or diabetes (≥126 mg/dL). It may also be transiently elevated by stress, illness, or medications.',
+      low: 'Low fasting glucose (hypoglycemia) may result from prolonged fasting, excessive insulin or diabetes medications, alcohol use, adrenal insufficiency, or rarely, insulin-producing tumors.',
+    },
+    commonNonDangerousReasons: {
+      high: [
+        'Not fasting long enough before the blood draw',
+        'Acute stress or illness (cortisol raises glucose)',
+        'Recent high-carbohydrate meal the night before',
+        'Poor sleep the night before the test',
+        'Medications such as corticosteroids',
+      ],
+      low: [
+        'Prolonged fasting (more than 12-14 hours)',
+        'Intense exercise before the test',
+        'Alcohol consumption the evening before',
+      ],
+    },
+    whenItMatters: 'Fasting glucose is a primary screening tool for diabetes and prediabetes. It is important for anyone with risk factors such as obesity, family history, or gestational diabetes.',
+    dailyLifeActions: {
+      high: [
+        'Reduce refined carbohydrates and added sugars in your diet',
+        'Increase physical activity — even 30 minutes of brisk walking daily can improve insulin sensitivity',
+        'Maintain a healthy weight; even 5-7% weight loss can significantly reduce diabetes risk',
+        'Choose whole grains, vegetables, and lean proteins over processed foods',
+        'Consider monitoring with a follow-up HbA1c test for a longer-term picture',
+      ],
+      low: [
+        'Eat regular, balanced meals to avoid prolonged fasting',
+        'Include protein and healthy fats with each meal to stabilize blood sugar',
+        'Limit alcohol, especially on an empty stomach',
+        'If on diabetes medications, discuss dosing with your clinician',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if fasting glucose is 100-125 mg/dL (prediabetes range) for further testing. See urgently if ≥126 mg/dL on repeat testing or ≥400 mg/dL at any time.',
+      low: 'See a clinician if you experience recurrent episodes of low blood sugar with symptoms (shakiness, sweating, confusion), especially if you are not on diabetes medications.',
+    },
+    preAnalyticalConfounders: [
+      'Inadequate fasting period (less than 8 hours)',
+      'Acute stress or illness',
+      'Delayed sample processing (glycolysis in the tube lowers glucose)',
+      'Caffeine intake (may slightly raise glucose)',
+      'Time of day (glucose tolerance varies diurnally)',
+    ],
+    medicationsAffecting: [
+      'Corticosteroids (increase)',
+      'Thiazide diuretics (increase)',
+      'Beta-blockers (may mask hypoglycemia symptoms and mildly increase glucose)',
+      'Atypical antipsychotics such as olanzapine (increase)',
+      'Insulin and oral hypoglycemics (decrease)',
+      'Metformin (decrease)',
+      'Niacin at high doses (increase)',
+    ],
+    relatedBiomarkers: ['HBA1C', 'INSULIN'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+  {
+    code: 'HBA1C',
+    name: 'Hemoglobin A1c',
+    aliases: ['HbA1c', 'glycated hemoglobin', 'glycosylated hemoglobin', 'A1C'],
+    category: 'metabolic',
+    specimenType: 'whole blood (EDTA)',
+    defaultUnit: '%',
+    alternativeUnits: ['mmol/mol'],
+    referenceRanges: [
+      { sex: 'any', min: 4.0, max: 5.6, unit: '%', source: 'ADA 2024' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 10.0, unit: '%', severity: 'critical', message: 'Very poorly controlled diabetes — high risk of diabetic complications.', action: 'See your clinician urgently to adjust diabetes management.' },
+      { direction: 'high', value: 6.5, unit: '%', severity: 'warning', message: 'HbA1c at or above 6.5% meets the diagnostic threshold for diabetes.', action: 'Discuss diabetes diagnosis and treatment plan with your clinician.' },
+    ],
+    whatItMeasures: 'The percentage of hemoglobin that has glucose attached to it. Because red blood cells live approximately 120 days, HbA1c reflects your average blood sugar level over the past 2-3 months.',
+    whatResultMayMean: {
+      high: 'Elevated HbA1c indicates sustained high blood sugar. 5.7-6.4% indicates prediabetes, and ≥6.5% indicates diabetes. Higher values correlate with increased risk of complications such as neuropathy, retinopathy, and kidney disease.',
+      low: 'A very low HbA1c (below 4.0%) may suggest frequent hypoglycemia, hemolytic anemia, or conditions that shorten red cell lifespan, which artificially lower the result.',
+    },
+    commonNonDangerousReasons: {
+      high: [
+        'Prediabetic insulin resistance from sedentary lifestyle and diet',
+        'Normal aging (HbA1c tends to increase slightly with age)',
+        'Iron deficiency anemia (may falsely elevate HbA1c)',
+      ],
+      low: [
+        'Recent blood loss or blood donation',
+        'Hemolytic anemia (shorter red cell lifespan)',
+        'Pregnancy (hemodilution)',
+      ],
+    },
+    whenItMatters: 'HbA1c is the gold standard for monitoring long-term blood sugar control in diabetes and is used for diagnosis. It is preferred over fasting glucose because it does not require fasting and reflects a longer time period.',
+    dailyLifeActions: {
+      high: [
+        'Reduce intake of refined carbohydrates, sugary beverages, and processed foods',
+        'Engage in at least 150 minutes of moderate-intensity exercise per week',
+        'Aim for gradual, sustainable weight loss if overweight',
+        'Monitor portion sizes and consider the glycemic index of foods',
+        'Prioritize consistent sleep patterns, as poor sleep impairs glucose regulation',
+        'Manage stress, which raises cortisol and blood sugar',
+      ],
+      low: [
+        'If on diabetes medications, discuss possible dose reduction with your clinician',
+        'Eat regular balanced meals to prevent hypoglycemia',
+        'Monitor for symptoms of low blood sugar',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if HbA1c is 5.7% or above for a comprehensive diabetes risk assessment. See urgently if above 9%.',
+      low: 'See a clinician if HbA1c is below 4.0% or if you experience frequent hypoglycemic episodes.',
+    },
+    preAnalyticalConfounders: [
+      'Hemoglobin variants (HbS, HbC, HbE) may cause inaccurate results depending on the assay method',
+      'Iron deficiency anemia (may falsely elevate HbA1c)',
+      'Hemolytic anemia or recent blood transfusion (may falsely lower HbA1c)',
+      'Chronic kidney disease (carbamylated hemoglobin may interfere)',
+      'Pregnancy',
+      'Recent significant blood loss',
+    ],
+    medicationsAffecting: [
+      'Insulin and oral hypoglycemics (decrease over time with good control)',
+      'Corticosteroids (increase glucose, leading to higher HbA1c over time)',
+      'Dapsone (may falsely lower)',
+      'Erythropoietin (may lower by stimulating new red cell production)',
+      'High-dose vitamin C or E (may interfere with some assays)',
+    ],
+    relatedBiomarkers: ['GLU', 'INSULIN'],
+    evidenceTier: 1,
+    lastReviewed: '2026-03-01',
+  },
+  {
+    code: 'INSULIN',
+    name: 'Insulin (Fasting)',
+    aliases: ['fasting insulin', 'serum insulin', 'immunoreactive insulin'],
+    category: 'metabolic',
+    specimenType: 'serum',
+    defaultUnit: 'µIU/mL',
+    alternativeUnits: ['pmol/L', 'mIU/L'],
+    referenceRanges: [
+      { sex: 'any', min: 2.6, max: 24.9, unit: 'µIU/mL', source: 'Quest/LabCorp reference ranges' },
+    ],
+    redFlagThresholds: [
+      { direction: 'high', value: 50, unit: 'µIU/mL', severity: 'warning', message: 'Very high fasting insulin suggests significant insulin resistance or, rarely, an insulinoma.', action: 'Discuss with your clinician for metabolic evaluation.' },
+      { direction: 'low', value: 1.0, unit: 'µIU/mL', severity: 'warning', message: 'Very low fasting insulin with elevated glucose may indicate type 1 diabetes or advanced beta cell failure.', action: 'See your clinician promptly.' },
+    ],
+    whatItMeasures: 'The level of insulin hormone in your blood after fasting. Insulin is produced by the pancreas and allows cells to take up glucose for energy. Fasting insulin reflects baseline pancreatic output and insulin sensitivity.',
+    whatResultMayMean: {
+      high: 'Elevated fasting insulin suggests insulin resistance — the body needs more insulin to maintain normal blood sugar. This is an early warning sign for type 2 diabetes, metabolic syndrome, and PCOS. Very high levels may rarely indicate an insulinoma.',
+      low: 'Low fasting insulin with normal glucose is usually normal and may indicate good insulin sensitivity. Low insulin with high glucose suggests inadequate insulin production, as in type 1 diabetes or late-stage type 2 diabetes.',
+    },
+    commonNonDangerousReasons: {
+      high: [
+        'Insulin resistance from excess weight, especially abdominal obesity',
+        'High-carbohydrate diet',
+        'Sedentary lifestyle',
+        'PCOS (polycystic ovary syndrome)',
+        'Not truly fasting before the test',
+      ],
+      low: [
+        'Excellent insulin sensitivity (often seen in lean, active individuals)',
+        'Prolonged fasting',
+        'Low-carbohydrate diet',
+      ],
+    },
+    whenItMatters: 'Fasting insulin is useful for assessing insulin resistance early — often years before glucose or HbA1c become abnormal. It is also used in evaluating hypoglycemia and PCOS.',
+    dailyLifeActions: {
+      high: [
+        'Reduce refined carbohydrate intake and focus on whole foods',
+        'Engage in regular physical activity, especially resistance training and walking after meals',
+        'Aim for healthy weight management',
+        'Increase fiber intake from vegetables, legumes, and whole grains',
+        'Consider intermittent fasting under medical guidance if appropriate',
+        'Prioritize quality sleep — sleep deprivation worsens insulin resistance',
+      ],
+      low: [
+        'If glucose is normal, no action is needed — low insulin with normal glucose reflects good metabolic health',
+        'If glucose is elevated, see your clinician to evaluate pancreatic function',
+      ],
+    },
+    whenToSeeDoctor: {
+      high: 'See a clinician if fasting insulin is above 25 µIU/mL, particularly with other metabolic risk factors (abdominal obesity, elevated triglycerides, high blood pressure).',
+      low: 'See a clinician if fasting insulin is below 2 µIU/mL with elevated glucose, as this may indicate insufficient insulin production.',
+    },
+    preAnalyticalConfounders: [
+      'Inadequate fasting (insulin rises after eating)',
+      'Stress (cortisol can raise both glucose and insulin)',
+      'Time of day (insulin sensitivity varies diurnally)',
+      'Hemolysis in the sample (insulin degradation)',
+      'Exogenous insulin use (interferes with most assays)',
+    ],
+    medicationsAffecting: [
+      'Exogenous insulin (measured by most assays)',
+      'Sulfonylureas (stimulate insulin secretion — increase)',
+      'Metformin (may reduce insulin levels by improving sensitivity)',
+      'Corticosteroids (increase glucose and secondarily insulin)',
+      'Thiazide diuretics (may increase insulin resistance)',
+    ],
+    relatedBiomarkers: ['GLU', 'HBA1C'],
+    evidenceTier: 2,
+    lastReviewed: '2026-03-01',
+  },
+];

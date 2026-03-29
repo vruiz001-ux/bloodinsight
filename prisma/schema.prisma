@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String?
+  passwordHash String?
+  sex          String?   // 'male' | 'female'
+  dateOfBirth  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  labReports LabReport[]
+  auditLogs  AuditLog[]
+}
+
+model LabReport {
+  id         String   @id @default(cuid())
+  userId     String
+  uploadDate DateTime @default(now())
+  labName    String?
+  reportDate DateTime?
+  fileName   String
+  fileType   String   // 'pdf' | 'image'
+  status     String   @default("uploading") // uploading | processing | extracted | interpreted | error
+  createdAt  DateTime @default(now())
+
+  user       User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  biomarkers ExtractedBiomarker[]
+  alerts     Alert[]
+  patterns   ClinicalPattern[]
+
+  @@index([userId])
+}
+
+model ExtractedBiomarker {
+  id              String  @id @default(cuid())
+  reportId        String
+  rawName         String
+  rawValue        String
+  rawUnit         String?
+  rawRange        String?
+  rawFlag         String?
+  confidence      Float
+  normalizedCode  String?
+  normalizedValue Float?
+  normalizedUnit  String?
+  statusLevel     String? // normal | borderline | abnormal | urgent
+  userCorrected   Boolean @default(false)
+
+  report          LabReport        @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  interpretations Interpretation[]
+
+  @@index([reportId])
+  @@index([normalizedCode])
+}
+
+model Interpretation {
+  id               String   @id @default(cuid())
+  biomarkerId      String
+  summary          String
+  explanation      String
+  significance     String
+  lifestyleActions String   // JSON array stored as text
+  followUp         String   // JSON array stored as text
+  version          Int      @default(1)
+  createdAt        DateTime @default(now())
+
+  biomarker ExtractedBiomarker @relation(fields: [biomarkerId], references: [id], onDelete: Cascade)
+
+  @@index([biomarkerId])
+}
+
+model Alert {
+  id            String   @id @default(cuid())
+  reportId      String
+  biomarkerCode String
+  severity      String   // info | warning | critical
+  value         Float
+  unit          String
+  message       String
+  action        String
+  createdAt     DateTime @default(now())
+
+  report LabReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@index([severity])
+}
+
+model ClinicalPattern {
+  id             String   @id @default(cuid())
+  reportId       String
+  patternType    String
+  description    String
+  confidence     Float
+  biomarkerCodes String   // JSON array stored as text
+  createdAt      DateTime @default(now())
+
+  report LabReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  details   String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+}
