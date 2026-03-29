@@ -1,0 +1,10 @@
+[build]
+  command = "npx prisma generate && npm run build"
+  publish = ".next"
+
+[build.environment]
+  NEXTAUTH_SECRET = "bloodinsight-production-secret-change-me"
+  NEXTAUTH_URL = "https://bloodinsight.netlify.app"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
