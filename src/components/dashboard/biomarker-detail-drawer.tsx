@@ -87,7 +87,7 @@ export function BiomarkerDetailDrawer({
               rangeMax={latest.rangeMax}
               unit={unit}
               status={status}
-              size={200}
+              size={240}
             />
           </div>
 

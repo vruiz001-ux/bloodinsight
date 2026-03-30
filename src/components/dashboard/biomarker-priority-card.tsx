@@ -70,7 +70,7 @@ export function BiomarkerPriorityCard({
               rangeMax={latest.rangeMax}
               unit={unit}
               status={status}
-              size={130}
+              size={160}
             />
           </div>
 

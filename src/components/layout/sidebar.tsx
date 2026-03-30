@@ -21,22 +21,22 @@ const navItems = [
   },
   {
     label: "Upload",
-    href: "/dashboard/upload",
+    href: "/upload",
     icon: Upload,
   },
   {
     label: "Trends",
-    href: "/dashboard/trends",
+    href: "/trends",
     icon: TrendingUp,
   },
   {
     label: "Actions",
-    href: "/dashboard/actions",
+    href: "/actions",
     icon: ListChecks,
   },
   {
     label: "Settings",
-    href: "/dashboard/settings",
+    href: "/settings",
     icon: Settings,
   },
 ];

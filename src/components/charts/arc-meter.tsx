@@ -97,8 +97,8 @@ export function ArcMeter({
 }: ArcMeterProps) {
   const cx = size / 2;
   const cy = size / 2;
-  const strokeWidth = size * 0.065;
-  const radius = size / 2 - strokeWidth - 4;
+  const strokeWidth = size * 0.12;
+  const radius = size / 2 - strokeWidth - 2;
   const innerRadius = radius - strokeWidth * 0.3;
 
   const geometry = useMemo(() => {
@@ -322,7 +322,7 @@ interface MiniArcProps {
 export function MiniArc({ value, rangeMin, rangeMax, status, size = 48 }: MiniArcProps) {
   const cx = size / 2;
   const cy = size / 2;
-  const strokeWidth = size * 0.1;
+  const strokeWidth = size * 0.16;
   const radius = size / 2 - strokeWidth - 2;
 
   const effectiveMin = rangeMin ?? 0;
